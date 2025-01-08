@@ -1,0 +1,526 @@
+<html><head><base href="https://webmenu-demo.vercel.app/">
+<meta charset="UTF-8">
+<style>
+:root {
+  --primary: #2196F3;
+  --secondary: #FF9800;
+  --dark: #1A237E;
+  --light: #E3F2FD;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', system-ui, sans-serif;
+  background: linear-gradient(135deg, var(--light) 0%, #BBDEFB 100%);
+  min-height: 100vh;
+}
+
+.login-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.login-box {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 50px rgba(0,0,0,0.3);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.login-box h2 {
+  color: var(--dark);
+  margin-bottom: 30px;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.login-box button {
+  background: var(--primary);
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  margin: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.login-box button:hover {
+  transform: scale(1.05);
+}
+
+.login-box .skip-btn {
+  background: #grey;
+}
+
+.menu-interface {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.menu-header {
+  text-align: center;
+  margin-bottom: 30px;
+  color: var(--dark);
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.menu-header h1 {
+  font-size: 2.5em;
+  margin: 0;
+}
+
+.lcd-screen {
+  background: linear-gradient(45deg, #0a192f, #112240);
+  color: #64ffda;
+  font-family: 'Courier New', monospace;
+  padding: 25px;
+  border-radius: 20px;
+  margin: 20px 0;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    inset 0 0 30px rgba(0,0,0,0.7),
+    0 8px 20px rgba(0,0,0,0.2);
+  border: 3px solid #233554;
+  font-size: 1.2em;
+  text-shadow: 0 0 8px rgba(100,255,218,0.6);
+  text-align: center;
+  line-height: 1.6;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-message {
+  animation: scrollUp 2s ease-in-out forwards;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+}
+
+@keyframes scrollUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.hint-text {
+  text-align: center;
+  color: var(--dark);
+  margin: 15px 0;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.day-menu {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  margin: 20px 0;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.day-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.nav-btn {
+  background: var(--primary);
+  border: none;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 30px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+}
+
+.nav-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+}
+
+.current-day {
+  font-size: 2em;
+  font-weight: 700;
+  color: var(--dark);
+  min-width: 150px;
+  text-align: center;
+}
+
+.dish-item {
+  background: #f8f9fa;
+  padding: 25px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.dish-item:hover {
+  background: white;
+  transform: translateX(10px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  border-color: var(--primary);
+}
+
+.dish-name {
+  font-size: 1.5em;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.rating {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 2px solid #eee;
+}
+
+.rating-title {
+  text-align: center;
+  color: var(--dark);
+  margin-bottom: 15px;
+}
+
+.star {
+  font-size: 32px;
+  cursor: pointer;
+  color: #FFB300;
+  transition: 0.3s;
+}
+
+.star:hover {
+  transform: scale(1.2);
+  color: #FFA000;
+}
+
+.fullscreen-message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  animation: slideUpFullscreen 1s ease-in-out forwards;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  line-height: 1.8;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.return-btn {
+  margin-top: 20px;
+  padding: 12px 24px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.submit-all-btn {
+  background: var(--primary);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  margin-top: 15px;
+  display: block;
+  margin: 15px auto;
+}
+
+.submit-all-btn:hover {
+  transform: scale(1.05);
+}
+
+@keyframes slideUpFullscreen {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.login-button {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: var(--primary);
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  display: none;
+  opacity: 1;
+}
+
+.login-button.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.login-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+</style>
+</head>
+<body>
+
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <h2>Bienvenue sur le Menu de la Cantine</h2>
+    <p>Pour que votre avis soit pris en compte, veuillez vous identifier.</p>
+    <form id="loginForm">
+      <input type="text" placeholder="Pr&#xe9;nom" id="firstName" required>
+      <input type="text" placeholder="Nom" id="lastName" required>
+      <button type="submit">Se connecter</button>
+      <button type="button" class="skip-btn" onclick="skipLogin()">Continuer en anonyme</button>
+    </form>
+  </div>
+</div>
+
+<div class="menu-interface">
+  <div class="menu-header">
+    <h1>Menu de la Cantine</h1>
+  </div>
+  
+  <div class="lcd-screen">
+    Bienvenue ! D&#xe9;couvrez notre menu de la semaine
+  </div>
+
+  <div class="hint-text">
+    S&#xe9;lectionnez un plat pour voir sa composition et les informations nutritionnelles
+  </div>
+
+  <div class="day-menu">
+    <div class="day-navigation">
+      <button class="nav-btn" onclick="changeDay(-1)">&#x2190;</button>
+      <div class="current-day" id="current-day">Lundi</div>
+      <button class="nav-btn" onclick="changeDay(1)">&#x2192;</button>
+    </div>
+    
+    <div id="menu-items"></div>
+
+    <div class="rating-title">Donnez votre avis</div>
+    <div class="rating">
+      <span class="star" onclick="rate(1)">&#x2605;</span>
+      <span class="star" onclick="rate(2)">&#x2605;</span>
+      <span class="star" onclick="rate(3)">&#x2605;</span>
+      <span class="star" onclick="rate(4)">&#x2605;</span>
+      <span class="star" onclick="rate(5)">&#x2605;</span>
+    </div>
+  </div>
+</div>
+
+<button class="login-button" id="loginButton">Se connecter</button>
+
+<script>let userIdentity = null;
+function handleLogin(event) {
+  if (event) event.preventDefault();
+  const firstName = document.getElementById('firstName').value;
+  const lastName = document.getElementById('lastName').value;
+  if (firstName && lastName) {
+    userIdentity = {
+      firstName,
+      lastName
+    };
+  }
+  document.getElementById('loginOverlay').style.display = 'none';
+  document.getElementById('loginButton').style.display = 'none';
+}
+function skipLogin() {
+  userIdentity = null;
+  document.getElementById('loginOverlay').style.display = 'none';
+  document.getElementById('loginButton').style.display = 'block';
+}
+const weeklyMenu = {
+  'Lundi': [{
+    name: 'Betterave-mimosa / Cordon bleu / Spaghetti bio',
+    ingredients: 'Betterave-mimosa, salade verte, pomelos, salad\'bar, cordon bleu, poisson meunière',
+    nutritionalInfo: 'Spaghetti bio, brocolis bio LAB, fromage / yaourt bio A, kiwi'
+  }],
+  'Mardi': [{
+    name: 'Rosette beurre / Sauté de porc / Salsifis',
+    ingredients: 'Rosette beurre, salade verte, pomelos, salad bar, sauté de porc, aile de raie',
+    nutritionalInfo: 'Salsifis, semoule bio, fromage / yaourt bio, dessert bar'
+  }],
+  'Mercredi': [{
+    name: 'Œuf mayonnaise / Saucisse de toulouse / Lentilles bio',
+    ingredients: 'Œuf mayonnaise, salade verte, pomelos, saucisse de toulouse, filet de colin',
+    nutritionalInfo: 'Lentilles bio, côte de blettes, fromage / yaourt bio, pêche melba'
+  }],
+  'Jeudi': [{
+    name: 'Salade coleslaw / Wings de poulet / Haricots beurre',
+    ingredients: 'Salade coleslaw, salade verte, pomelos, salad bar, wings de poulet, nuggets végétal',
+    nutritionalInfo: 'Haricots beurre, frites, fromage / yaourt bio, orange'
+  }],
+  'Vendredi': [{
+    name: 'Salade de blé bio / Paupiette de veau / Riz bio',
+    ingredients: 'Salade de blé bio AB, salade verte, pomelos, salad bar, paupiette de veau, médaillon de merlu',
+    nutritionalInfo: 'Riz bio, légumes verts bio, fromage / yaourt bio AB, pâtisserie'
+  }]
+};
+let currentDay = 'Lundi';
+let selectedDish = '';
+function updateMenuDisplay() {
+  const dayMenu = weeklyMenu[currentDay];
+  const menuItemsContainer = document.getElementById('menu-items');
+  document.getElementById('current-day').textContent = currentDay;
+  let menuHTML = '';
+  dayMenu.forEach(dish => {
+    const escapedIngredients = dish.ingredients.replace(/'/g, "\\'");
+    const escapedNutrition = dish.nutritionalInfo.replace(/'/g, "\\'");
+    menuHTML += `
+      <div class="dish-item" onclick="showDishDetails('${escapedIngredients}', '${escapedNutrition}')">
+        <div class="dish-name">${dish.name}</div>
+      </div>
+    `;
+  });
+  menuItemsContainer.innerHTML = menuHTML;
+}
+function changeDay(direction) {
+  const days = Object.keys(weeklyMenu);
+  let currentIndex = days.indexOf(currentDay);
+  let newIndex = currentIndex + direction;
+  if (newIndex < 0 || newIndex >= days.length) {
+    return;
+  }
+  currentDay = days[newIndex];
+  updateMenuDisplay();
+  document.querySelector('.lcd-screen').textContent = `Menu du ${currentDay}`;
+}
+function showDishDetails(ingredients, nutrition) {
+  document.querySelector('.lcd-screen').innerHTML = `
+    Ingrédients: ${ingredients}<br><br>
+    ${nutrition}
+  `;
+}
+function rate(stars) {
+  const currentDish = weeklyMenu[currentDay][0].name;
+  if (userIdentity) {
+    if (currentDay === 'Vendredi') {
+      document.querySelector('.lcd-screen').innerHTML = `
+        <div class="scroll-message">
+          Merci ${userIdentity.firstName} !<br>
+          Vous avez donné ${stars} étoiles au repas.
+          <button class="submit-all-btn" onclick="submitAllRatings()">Envoyer tous mes avis</button>
+        </div>
+      `;
+    } else {
+      document.querySelector('.lcd-screen').innerHTML = `
+        <div class="scroll-message">
+          Merci ${userIdentity.firstName} !<br>
+          Vous avez donné ${stars} étoiles au repas.
+        </div>
+      `;
+    }
+  } else {
+    document.querySelector('.lcd-screen').innerHTML = `
+      <div class="scroll-message">
+        Connectez-vous pour donner votre avis.<br>
+        Votre opinion nous aide à nous améliorer !
+      </div>
+    `;
+  }
+}
+function submitAllRatings() {
+  const fullscreenMsg = document.createElement('div');
+  fullscreenMsg.className = 'fullscreen-message';
+  fullscreenMsg.innerHTML = `
+    Merci beaucoup ${userIdentity.firstName} ${userIdentity.lastName} !
+    <br><br>
+    Vos avis ont été enregistrés.
+    <br>
+    Nous tiendrons compte de vos retours 
+    <br>
+    pour améliorer nos repas.
+    <br><br>
+    À très bientôt dans votre cantine !
+    <button class="return-btn" onclick="location.reload()">Retour à l'accueil</button>
+  `;
+  document.body.appendChild(fullscreenMsg);
+}
+let lastScrollPosition = 0;
+let ticking = false;
+window.addEventListener('scroll', function () {
+  lastScrollPosition = window.scrollY;
+  if (!ticking) {
+    window.requestAnimationFrame(function () {
+      const loginButton = document.getElementById('loginButton');
+      if (lastScrollPosition > 50) {
+        loginButton.classList.add('hidden');
+      } else {
+        loginButton.classList.remove('hidden');
+      }
+      ticking = false;
+    });
+    ticking = true;
+  }
+});
+updateMenuDisplay();
+document.getElementById('loginForm').addEventListener('submit', handleLogin);
+document.getElementById('loginButton').addEventListener('click', function () {
+  document.getElementById('loginOverlay').style.display = 'flex';
+  document.getElementById('firstName').value = '';
+  document.getElementById('lastName').value = '';
+});</script>
+
+</body></html>
